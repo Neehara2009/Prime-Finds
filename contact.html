@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prime Finds - Contact Us</title>
+    <title>Prime Finds - Support</title>
     <style>
         * {
             margin: 0;
@@ -116,56 +116,41 @@
             color: #fff;
             text-decoration: none;
         }
-        .contact-container {
+        .support-container {
             padding: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
             max-width: 800px;
             margin: auto;
-        }
-        .contact-container h2 {
-            margin-bottom: 20px;
-        }
-        .contact-form {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            width: 100%;
+        }
+        .support-container h2 {
+            margin-bottom: 20px;
+        }
+        .support-container h3 {
+            margin-top: 20px;
+        }
+        .contact-form {
             display: flex;
             flex-direction: column;
         }
-        .form-group {
+        .contact-form input, .contact-form textarea {
             margin-bottom: 15px;
-        }
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            transition: border-color 0.3s;
         }
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        .submit-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
+        .contact-form button {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .submit-button:hover {
-            background-color: #0056b3;
+        .contact-form button:hover {
+            background-color: #555;
         }
         footer {
             padding: 20px;
@@ -250,7 +235,6 @@
             transition: all 0.3s ease;
         }
     </style>
-    <link rel="stylesheet" href="menu.css"> <!-- Link to CSS file -->
 </head>
 <body>
     <!-- Menu Icon -->
@@ -277,24 +261,27 @@
     <a href="support.html">Support</a><br>
 </div>
 
-    <!-- Contact Us Section -->
-    <div class="contact-container">
-        <h2>Contact Us</h2>
-        <form class="contact-form">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="submit-button">Send Message</button>
+    <!-- Support Section -->
+    <div class="support-container">
+        <h2>Support</h2>
+        <p>If you have any questions or need assistance, please feel free to contact us through the form below or check our FAQ section.</p>
+
+        <h3>Contact Us</h3>
+        <form class="contact-form" action="https://formspree.io/f/xgveabbr" method="post" enctype="text/plain">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
         </form>
+
+        <h3>Frequently Asked Questions</h3>
+        <ul>
+            <li><a href="#">What payment methods do you accept?</a></li>
+            <li><a href="#">How can I track my order?</a></li>
+            <li><a href="#">What is your return policy?</a></li>
+            <li><a href="#">Do you offer international shipping?</a></li>
+            <li><a href="#">How do I contact customer service?</a></li>
+        </ul>
     </div>
 
     <!-- Footer Section -->
