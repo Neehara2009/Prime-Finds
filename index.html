@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Finds - Online Shopping</title>
+    <meta name="google-site-verification" content="JO_Nas8c2d6DWqycLQxeDCcGuto3U1SPi2cXDcj7RsA" />
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1QJQ8NG4PP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1QJQ8NG4PP');
+</script>
+<meta name="p:domain_verify" content="c8dad8f0cd5d34b0f4d7496ae149fb68"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #f1f1f1;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidenav a:hover {
+            color: #f1c40f;
+        }
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            color: #fff;
+        }
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            background: linear-gradient(120deg, #89f7fe, #66a6ff);
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 32px;
+            color: #fff;
+        }
+        .hero p {
+            color: #f5f5f5;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .cta-button {
+            background-color: #fff;
+            color: #333;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        /* Featured Products Section */
+        .featured-products {
+            padding: 20px;
+            background-color: rgba(238, 250, 238, 0.918);
+        }
+        .featured-products h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            color: #00ff62;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Footer Section */
+        footer {
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+        }
+        footer .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer .footer-links ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        footer .footer-links ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        footer .social-media a {
+            color: #ff9800;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .add-to-cart {
+            background-color: #333;
+            color: #fff;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu Icon -->
+<div class="navbar">
+    <div class="logo">Prime Finds</div>
+    <div class="hamburger" onclick="toggleNav()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</div>
+
+<!-- Sidebar Menu -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+    <a href="index.html">Home</a><br>
+    <a href="shop.html">Shop</a><br>
+    <a href="categories.html">Categories</a><br>
+    <a href="deals.html">Deals</a><br>
+    <a href="contact.html">Contact Us</a><br>
+    <a href="faq.html">FAQ</a><br>
+    <a href="privacy-policy.html">Privacy Policy</a><br>
+    <a href="support.html">Support</a><br>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h2>Discover the Latest Trends</h2>
+        <p>Shop with Prime Finds. Your one-stop shop for quality products.</p>
+        <a href="shop.html" class="cta-button">Explore Now</a>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S7696b74b8e6a4e719cf18c070c7f661c2.jpg');"></div>
+            <h3>Ladies Watch</h3>
+            <p>USD 4.28</p><br>
+            <a href="https://s.click.aliexpress.com/e/_Eyajo9F" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/Sf21f6dc4b22c44c0a22b8c66573e4d66k.jpg');"></div>
+            <h3>Flash Memory</h3>
+            <p>USD 0.60</p><br>
+            <a href="https://s.click.aliexpress.com/e/_EzxnnXj" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S3afa5a8665f24610ac3844ba79b6e87cv.jpg');"></div>
+            <h3>External Hard Drive</h3>
+            <p>USD 4.66</p><br>
+            <a href="https://s.click.aliexpress.com/e/_EvXQusD" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S1e546d5e6e3c4a72abedbe508fe309afv.jpg');"></div>
+            <h3>4G Lte Router Modem</h3>
+            <p>USD 24.23</p><br>
+            <a href="https://s.click.aliexpress.com/e/_msJYDJ2" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S534a8ad9332c4f51b58b0219f212174cY.jpg');"></div>
+            <h3>student study office tablet</h3>
+            <p>USD 98.00</p><br>
+            <a href="https://s.click.aliexpress.com/e/_EwkvT1J" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S6133900ca8994c87a429d39017132dfaJ.jpg');"></div>
+            <h3>Mens Gold Watch</h3>
+            <p>$2.43</p><br>
+            <a href="https://s.click.aliexpress.com/e/_DFxcnln" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S197f91e46d784681bcd2d711aa9b753bL.jpg_480x480.jpg_.webp');"></div>
+            <h3>Original For Brand Smartphone</h3>
+            <p>$74.62</p><br>
+            <a href="https://s.click.aliexpress.com/e/_DCnFk5T" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/S77a2d58ef76041af883d727e41a3e30cB.jpg_480x480.jpg_.webp');"></div>
+            <h3>Xiaomi Air 7 Earphone</h3>
+            <p>$4.67</p><br>
+            <a href="https://s.click.aliexpress.com/e/_DdYrAkv" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/Sbb48e8b8d69b48c4b0b5020390d28807Y/Sweatpants-Men-Jogger-Cargo-Pants-Casual-Multi-Pockets-Military-Tactical-Trousers-Tactical-Cargo-Baggy-Pants-Men.jpg_.webp');"></div>
+            <h3>Sweatpants Men Trousers</h3>
+            <p>$11.31</p><br>
+            <a href="https://s.click.aliexpress.com/e/_Dm7W45L" class="add-to-cart">Buy now</a>
+        </div>
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('https://ae-pic-a1.aliexpress-media.com/kf/Sad6ab81b27bc4b7ca885616c18cffe42B/Vintage-High-Waist-Corduroy-Pants-Women-Classic-Baggy-Wide-LegTrousers-Korean-Fashion-All-Match-Streetwear-Overalls.jpg_.webp');"></div>
+            <h3>LegTrousers Korean Fashion</h3>
+            <p>$8.75</p><br>
+            <a href="https://s.click.aliexpress.com/e/_DmJbKxJ" class="add-to-cart">Buy now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Section -->
+<footer>
+    <div class="footer-links">
+        <ul>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="support.html">Support</a></li>
+        </ul>
+    </div>
+    <div class="social-media">
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+    </div>
+    <p>&copy; 2024 Prime Finds. All rights reserved.</p>
+</footer>
+
+<script>
+    function toggleNav() {
+        const sidebar = document.getElementById('mySidenav');
+        sidebar.style.width = sidebar.style.width === '250px' ? '0' : '250px';
+    }
+
+    function closeNav() {
+        document.getElementById('mySidenav').style.width = '0';
+    }
+</script>
+</body>
+</html>

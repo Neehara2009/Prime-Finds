@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Finds - Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            color: #fff;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .nav-links li {
+            margin: 0 15px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #ff9800;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            background: #ff9800;
+            bottom: -6px;
+            left: 0;
+            transition: width 0.4s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                right: 0;
+                top: 60px;
+                height: 100vh;
+                width: 100%;
+                background-color: #333;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in;
+            }
+            .nav-links li {
+                margin: 20px 0;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-links.open {
+                transform: translateX(0%);
+            }
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        header .logo h1 {
+            font-size: 24px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+        header nav ul li {
+            margin-left: 20px;
+        }
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .shop-container {
+            padding: 50px;
+        }
+        .filter-section {
+            margin-bottom: 30px;
+        }
+        .filter-section h2 {
+            margin-bottom: 10px;
+        }
+        .filter-section select {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .apply-button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .apply-button:hover {
+            background-color: #218838;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-card .product-image {
+            width: 100%;
+            height: 150px;
+            background-color: #ddd;
+            margin-bottom: 15px;
+        }
+        .product-card h3 {
+            margin: 10px 0;
+        }
+        .product-card p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .add-to-cart {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart:hover {
+            background-color: #555;
+        }
+        /* Sidebar */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #f1f1f1;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidenav a:hover {
+            color: #f1c40f;
+        }
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            color: #fff;
+        }
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+        /* Footer Section */
+        footer {
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+        }
+        footer .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer .footer-links ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        footer .footer-links ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        footer .social-media a {
+            color: #ff9800;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Menu Icon -->
+<div class="navbar">
+    <div class="logo">Prime Finds</div>
+    <div class="hamburger" onclick="toggleNav()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</div>
+
+<!-- Sidebar Menu -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+    <a href="index.html">Home</a><br>
+    <a href="shop.html">Shop</a><br>
+    <a href="categories.html">Categories</a><br>
+    <a href="deals.html">Deals</a><br>
+    <a href="contact.html">Contact Us</a><br>
+    <a href="index.html">Log Out</a><br>
+    <a href="faq.html">FAQ</a><br>
+    <a href="privacy-policy.html">Privacy Policy</a><br>
+    <a href="support.html">Support</a><br>
+</div>
+
+    <!-- Shop Section -->
+    <div class="shop-container">
+        <div class="filter-section">
+            <h2>Filter by Category:</h2>
+            <select id="categoryFilter">
+                <option value="all">All</option>
+                <option value="fashion">Fashion</option>
+                <option value="electronics">Electronics</option>
+                <option value="home">Home</option>
+                <option value="books">Books</option>
+            </select>
+            <button id="applyFilter" class="apply-button">Apply</button>
+        </div>
+        
+        <div class="product-grid" id="productGrid">
+            <div class="product-card" data-category="fashion">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Fashion Item 1</h3>
+                <p>$49.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 1</h3>
+                <p>$79.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="home">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Home Item 1</h3>
+                <p>$39.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="books">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Book Item 1</h3>
+                <p>$29.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="fashion">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Fashion Item 2</h3>
+                <p>$59.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            <div class="product-card" data-category="electronics">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/200x200.png?text=Product+2');"></div>
+                <h3>Electronics Item 2</h3>
+                <p>$89.99</p>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+            
+            <!-- More product cards can be added here -->
+        </div>
+    </div>
+
+
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-links">
+            <ul>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+        </div>
+        <div class="social-media">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+        </div>
+        <p>&copy; 2024 Prime Finds. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('applyFilter').addEventListener('click', function() {
+            const filterValue = document.getElementById('categoryFilter').value;
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(card => {
+                if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                    card.style.display = 'block'; // Show the card
+                } else {
+                    card.style.display = 'none'; // Hide the card
+                }
+            });
+        });
+
+        function toggleNav() {
+        const sidebar = document.getElementById('mySidenav');
+        sidebar.style.width = sidebar.style.width === '250px' ? '0' : '250px';
+    }
+
+    function closeNav() {
+        document.getElementById('mySidenav').style.width = '0';
+    }
+    </script>
+</body>
+</html>
